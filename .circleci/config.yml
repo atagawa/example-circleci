@@ -1,11 +1,16 @@
 # $ circleci config validate -> ファイルのバリデーションチェックを実行
 # $ circleci local execute -> localで本ファイルを実行
-version: 2
+version: 2.1
+executors:
+  my-executor:
+    docker:
+      - image: cimg/ruby:2.7.1-node
+    environment:
+      BUNDLE_PATH: vendor/bundle
 jobs:
   build:
-    docker:
-      - image: cimg/node:lts
+    executor: my-executor
+    environment:
+      RAILS_ENV: production
     steps:
-      - checkout
-      - run: yarn install
-      - run: yarn jest
+      - run: echo Hello World!!
