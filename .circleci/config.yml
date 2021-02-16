@@ -1,16 +1,10 @@
 # $ circleci config validate -> ファイルのバリデーションチェックを実行
 # $ circleci local execute -> localで本ファイルを実行
 version: 2.1
-executors:
-  my-executor:
-    docker:
-      - image: cimg/ruby:2.7.1-node
-    environment:
-      BUNDLE_PATH: vendor/bundle
+orbs:
+  win: circleci/windows@2.4.0
 jobs:
   build:
-    executor: my-executor
-    environment:
-      RAILS_ENV: production
+    executor: win/default
     steps:
       - run: echo Hello World!!
