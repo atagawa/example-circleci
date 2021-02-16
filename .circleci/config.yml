@@ -1,10 +1,13 @@
 # $ circleci config validate -> ファイルのバリデーションチェックを実行
 # $ circleci local execute -> localで本ファイルを実行
 version: 2.1
-orbs:
-  win: circleci/windows@2.4.0
-jobs:
-  build:
-    executor: win/default
+commands:
+  sayhello:
     steps:
       - run: echo Hello World!!
+jobs:
+  build:
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - sayhello
