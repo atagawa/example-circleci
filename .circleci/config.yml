@@ -1,19 +1,27 @@
 # $ circleci config validate -> ファイルのバリデーションチェックを実行
 # $ circleci local execute -> localで本ファイルを実行
 version: 2.1
-commands:
-  sayhello:
-    description: "Say Hello!!"
-    parameters: 
-      to:
-        type: string
-        default: "World"
-    steps:
-      - run: echo Hello << parameters.to >>
 jobs:
   build:
     docker:
-      - image: cimg/node:lts
+      - image: busybox
     steps:
-      - sayhello:
-          to: Everyone
+      - run: echo "build job"
+  deploy:
+    docker:
+      - image: busybox
+    steps:
+      - run: echo "deploy job"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - hold:
+        type: approval
+        requires: 
+          - build
+      - deploy:
+        requires:
+          - hold
